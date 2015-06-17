@@ -1,0 +1,19 @@
+Package: minionSummaryData
+Type: Package
+Version: 0.99.2
+Title: Summarised MinION sequencing data published by Ashton et al.
+        2015
+Authors@R: person("Mike", "Smith", email = "grimbough@gmail.com", role
+        = c("aut", "cre"))
+Description: Summarised MinION sequencing data for Salmonella Typhi
+        published by Ashton et al. in 2015. Three replicate runs are
+        each provided as Fast5Summary objects.
+biocViews: ExperimentData, SequencingData
+Depends: R (>= 3.2.0)
+License: MIT + file LICENSE
+Suggests: IONiseR, BiocStyle, knitr, rmarkdown
+VignetteBuilder: knitr
+LazyLoad: yes
+NeedsCompilation: no
+Author: Mike Smith [aut, cre]
+Maintainer: Mike Smith <grimbough@gmail.com>
