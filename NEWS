@@ -1,3 +1,11 @@
+minionSummaryData v0.99.3 (Release date: 2015-08-19)
+==============
+
+Changes:
+
+* Data objects updated to include PASS/FAIL column, reflecting more recent
+  versions of of the data produced by MinION devices.
+
 minionSummaryData v0.99.0 (Release date: 2015-06-12)
 ==============
 

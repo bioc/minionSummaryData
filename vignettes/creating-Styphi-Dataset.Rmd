@@ -76,6 +76,32 @@ s.typhi.rep2 <- readFast5Summary(files = fast5.2)
 s.typhi.rep3 <- readFast5Summary(files = fast5.3)
 ```
 
+We now to some processing to make this data more closely represent those currently produced by the Metrichor basecaller.  This now categories fast5 files as either PASS or FAIL, with a passing read being defined as having both strands successfully read and a mean base quality for the 2D read greater than 9.  This was no part of the workflow when the data used in this package where generated.  However, several of the functions in `IONiseR` make use of this information, so we use the following function to add it manually.
+
+```{r, eval=FALSE}
+addPassFail <- function(summaryData) {
+    ## calculate the mean base quality score for 2D reads
+    meanBaseQuality <- alphabetScore(quality(fastq2D(summaryData))) / width(fastq2D(summaryData))
+    ## any greater than 9 is a PASS, less than is FAIL
+    passFail <- ifelse(meanBaseQuality > 9, yes = TRUE, no = FALSE)
+    ## match the PASS/FAIL status with an id
+    passFail <- data.table(baseCalled(summaryData) %>% 
+                   filter(full_2D == TRUE, strand== "template") %>% 
+                   select(id), pass = passFail)
+    ## create FALSE vector for all fast5 files, including those with no 2D
+    tmp <- rep(FALSE, length(summaryData))
+    ## use the id field to set PASS for appropriate reads
+    tmp[filter(passFail, pass==TRUE)[,id]] <- TRUE
+    ## update readInfo slot with extract column
+    summaryData@readInfo <- mutate(readInfo(summaryData), pass = tmp)
+    return(summaryData)
+}
+
+s.typhi.rep1 <- addPassFail(s.typhi.rep1)
+s.typhi.rep2 <- addPassFail(s.typhi.rep2)
+s.typhi.rep3 <- addPassFail(s.typhi.rep3)
+```
+
 Finally we save the three objects to *.rda* files.
 
 ```{r, eval=FALSE}
