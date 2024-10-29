@@ -1,6 +1,6 @@
 Package: minionSummaryData
 Type: Package
-Version: 1.36.0
+Version: 1.37.0
 Title: Summarised MinION sequencing data published by Ashton et al.
         2015
 Authors@R: person("Mike", "Smith", email = "grimbough@gmail.com", role
